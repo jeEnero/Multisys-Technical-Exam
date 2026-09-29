@@ -27,7 +27,7 @@ export default defineConfig({
 use: {
   trace: 'on-first-retry',
 
-  headless: false,
+headless: process.env.CI ? true : false,
 
   launchOptions: {
     slowMo: 1000,
