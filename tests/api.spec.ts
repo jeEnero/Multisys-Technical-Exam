@@ -1,0 +1,71 @@
+import { test, expect } from '@playwright/test';
+import { UsersApiService } from '../pages/ApiPage';
+
+test.describe('API Endpoint Validation Test', () => {
+
+  test('GET Request - Success and Validate Schema/Array', async ({ request }) => {
+    const api = new UsersApiService(request);
+    const response = await api.getUsers();
+    
+    // 1. Status Code Validation
+    expect(response.status()).toBe(200);
+
+    const body = await response.json();
+    
+    // 2. Array at Schema Validations base sa totoong JSON data
+    expect(Array.isArray(body)).toBeTruthy();
+    expect(body.length).toBe(10); // Saktong 10 users ang laman ng API
+
+    // I-verify ang nested schema ng unang user (Leanne Graham)
+    const firstUser = body[0];
+    expect(firstUser).toHaveProperty('id', 1);
+    expect(firstUser).toHaveProperty('name', 'Leanne Graham');
+    expect(firstUser).toHaveProperty('email', 'Sincere@april.biz');
+    
+    // Nested Address & Geo validation
+    expect(firstUser.address).toHaveProperty('city', 'Gwenborough');
+    expect(firstUser.address.geo).toHaveProperty('lat', '-37.3159');
+    
+    // Nested Company validation
+    expect(firstUser.company).toHaveProperty('name', 'Romaguera-Crona');
+  });
+
+  test('GET Request - Single Resource', async ({ request }) => {
+    const api = new UsersApiService(request);
+    const userId = 2; // Halimbawa ay si Ervin Howell
+    const response = await api.getUserById(userId);
+    
+    expect(response.status()).toBe(200);
+
+    const user = await response.json();
+    
+    // I-verify ang tamang ID at data fields
+    expect(user.id).toBe(userId);
+    expect(user.name).toBe('Ervin Howell');
+    expect(user.username).toBe('Antonette');
+    expect(user.address.street).toBe('Victor Plains');
+  });
+
+  test('POST Request - Data Creation', async ({ request }) => {
+    const api = new UsersApiService(request);
+    const newUserData = {
+      name: 'Jerome Enero',
+      username: 'jenero',
+      email: 'jerome.enero@test.com'
+    };
+
+    const response = await api.createUser(newUserData);
+
+    // 201 Created Status Verification
+    expect(response.status()).toBe(201);
+
+    const createdUser = await response.json();
+
+    // I-verify na nag-return ito ng bagong ID at tugmang data
+    expect(createdUser).toHaveProperty('id');
+    expect(createdUser.name).toBe(newUserData.name);
+    expect(createdUser.username).toBe(newUserData.username);
+    expect(createdUser.email).toBe(newUserData.email);
+  });
+
+});
