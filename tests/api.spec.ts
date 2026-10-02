@@ -7,26 +7,26 @@ test.describe('API Endpoint Validation Test', () => {
     const api = new UsersApiService(request);
     const response = await api.getUsers();
     
-    // 1. Status Code Validation
+
     expect(response.status()).toBe(200);
 
     const body = await response.json();
     
-    // 2. Array at Schema Validations base sa totoong JSON data
-    expect(Array.isArray(body)).toBeTruthy();
-    expect(body.length).toBe(10); // Saktong 10 users ang laman ng API
 
-    // I-verify ang nested schema ng unang user (Leanne Graham)
+    expect(Array.isArray(body)).toBeTruthy();
+    expect(body.length).toBe(10); 
+
+  
     const firstUser = body[0];
     expect(firstUser).toHaveProperty('id', 1);
     expect(firstUser).toHaveProperty('name', 'Leanne Graham');
     expect(firstUser).toHaveProperty('email', 'Sincere@april.biz');
     
-    // Nested Address & Geo validation
+
     expect(firstUser.address).toHaveProperty('city', 'Gwenborough');
     expect(firstUser.address.geo).toHaveProperty('lat', '-37.3159');
     
-    // Nested Company validation
+  
     expect(firstUser.company).toHaveProperty('name', 'Romaguera-Crona');
   });
 
@@ -39,7 +39,6 @@ test.describe('API Endpoint Validation Test', () => {
 
     const user = await response.json();
     
-    // I-verify ang tamang ID at data fields
     expect(user.id).toBe(userId);
     expect(user.name).toBe('Ervin Howell');
     expect(user.username).toBe('Antonette');
@@ -56,12 +55,12 @@ test.describe('API Endpoint Validation Test', () => {
 
     const response = await api.createUser(newUserData);
 
-    // 201 Created Status Verification
+   
     expect(response.status()).toBe(201);
 
     const createdUser = await response.json();
 
-    // I-verify na nag-return ito ng bagong ID at tugmang data
+
     expect(createdUser).toHaveProperty('id');
     expect(createdUser.name).toBe(newUserData.name);
     expect(createdUser.username).toBe(newUserData.username);
