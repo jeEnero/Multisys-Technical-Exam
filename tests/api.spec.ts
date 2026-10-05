@@ -32,7 +32,7 @@ test.describe('API Endpoint Validation Test', () => {
 
   test('GET Request - Single Resource', async ({ request }) => {
     const api = new UsersApiService(request);
-    const userId = 2; // Halimbawa ay si Ervin Howell
+    const userId = 2; 
     const response = await api.getUserById(userId);
     
     expect(response.status()).toBe(200);
