@@ -3,7 +3,7 @@ import { UsersApiService } from '../pages/ApiPage';
 
 test.describe('API Endpoint Validation Test', () => {
 
-  test('GET Request - Success and Validate Schema/Array', async ({ request }) => {
+  test('GET Request - Success and Validate Schema', async ({ request }) => {
     const api = new UsersApiService(request);
     const response = await api.getUsers();
     
