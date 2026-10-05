@@ -8,7 +8,7 @@ test.describe('Checkboxes Tests (POM)', () => {
     const checkboxPage = new CheckboxStatePage(page);
 
 
-    await page.goto(BASE_URL)
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
 
 
     const cb1 = checkboxPage.getCheckbox(0);

@@ -5,7 +5,7 @@ import { LoginPage } from '../pages/loginPage';
 test.describe('Login Tests', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(LOGIN_URL);
+    await page.goto(LOGIN_URL, { waitUntil: 'domcontentloaded' });
   });
 
   test('User can login with valid credentials', async ({ page }) => {

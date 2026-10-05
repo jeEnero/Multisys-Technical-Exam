@@ -9,7 +9,7 @@ test.describe('Dynamic Content Tests ', () => {
   test('Verify that content changes on page refresh', async ({ page }) => {
     const dynamicContentPage = new DynamicContentPage(page);
 
-    await page.goto(BASE_URL);
+    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
 
     const initialTexts = await dynamicContentPage.getContentTexts();
 
