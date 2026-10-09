@@ -6,16 +6,18 @@ test.describe('Login Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto(LOGIN_URL, { waitUntil: 'domcontentloaded' });
+    
   });
 
   test('User can login with valid credentials', async ({ page }) => {
+   
     const loginPage = new LoginPage(page);
 
     await loginPage.enterUsername(USERNAME, PASSWORD);
     await expect(page).toHaveURL(SECURE_URL);
     await expect(page.locator('.flash.success')).toContainText('You logged into a secure area!');
   });
-
+  
    test('User cant login with invalid credentials', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.enterUsername(INVALID_USERNAME, INVALID_PASSWORD);
